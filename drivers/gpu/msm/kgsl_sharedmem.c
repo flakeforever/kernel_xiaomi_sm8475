@@ -1137,6 +1137,7 @@ static void _kgsl_free_pages(struct kgsl_memdesc *memdesc, unsigned int pcount)
 }
 #endif
 
+#if IS_ENABLED(CONFIG_QCOM_SECURE_BUFFER)
 static void kgsl_free_pages_from_sgt(struct kgsl_memdesc *memdesc)
 {
 	int i;
@@ -1167,6 +1168,7 @@ static void kgsl_free_pages_from_sgt(struct kgsl_memdesc *memdesc)
 	if (memdesc->shmem_filp)
 		fput(memdesc->shmem_filp);
 }
+#endif
 
 void kgsl_page_sync_for_device(struct device *dev, struct page *page,
 		size_t size)
