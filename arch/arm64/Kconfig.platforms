@@ -425,4 +425,10 @@ config ARCH_ZYNQMP
 	help
 	  This enables support for Xilinx ZynqMP Family
 
+config S12B
+	bool "Enable Support for zizhan camera driver"
+	depends on ARCH_QCOM
+	help
+	  This enable support for zizhan camera driver
+
 endmenu
