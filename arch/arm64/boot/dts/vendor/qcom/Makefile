@@ -9,6 +9,12 @@ dtbo-$(CONFIG_BOARD_MONDRIAN) += \
 mondrian-sm8475-pm8008-overlay.dtbo-base := cape.dtb cape-v2.dtb capep.dtb
 endif
 
+ifeq ($(CONFIG_BOARD_DITING),y)
+dtbo-$(CONFIG_BOARD_DITING) += \
+                diting-sm8475-pm8008-overlay.dtbo
+diting-sm8475-pm8008-overlay.dtbo-base := cape.dtb cape-v2.dtb capep.dtb
+endif
+
 endif
 endif
 endif
