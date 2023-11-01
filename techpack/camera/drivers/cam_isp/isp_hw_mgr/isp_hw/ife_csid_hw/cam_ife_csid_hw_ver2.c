@@ -35,7 +35,8 @@
 #define CAM_IFE_CSID_TIMEOUT_SLEEP_US                  1000
 #define CAM_IFE_CSID_TIMEOUT_ALL_US                    100000
 
-#define CAM_IFE_CSID_RESET_TIMEOUT_MS                  100
+/* Xiaomi change this value from 100ms to 200ms */
+#define CAM_IFE_CSID_RESET_TIMEOUT_MS                  200
 
 /*
  * Constant Factors needed to change QTimer ticks to nanoseconds
@@ -1850,6 +1851,7 @@ int cam_ife_csid_ver2_get_hw_caps(void *hw_priv,
 	hw_caps->rup_en = csid_reg->cmn_reg->rup_supported;
 	hw_caps->only_master_rup = csid_reg->cmn_reg->only_master_rup;
 	hw_caps->is_lite = soc_private->is_ife_csid_lite;
+	hw_caps->camif_irq_support = csid_reg->cmn_reg->camif_irq_support;
 
 	CAM_DBG(CAM_ISP,
 		"CSID:%d num-rdis:%d, num-pix:%d, major:%d minor:%d ver:%d",
@@ -4155,7 +4157,9 @@ static int cam_ife_csid_ver2_enable_hw(
 		rc = -EINVAL;
 		goto unsubscribe_top_err;
 	}
-
+#if IS_ENABLED(ZIZHAN_CAMERA)
+	memset(&csid_hw->timestamp, 0, sizeof(struct cam_ife_csid_timestamp));
+#endif
 	csid_hw->flags.device_enabled = true;
 	csid_hw->flags.fatal_err_detected = false;
 	CAM_DBG(CAM_ISP, "CSID:%d CSID HW version: 0x%x",
