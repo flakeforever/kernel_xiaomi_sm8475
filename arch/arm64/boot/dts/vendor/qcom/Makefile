@@ -300,7 +300,6 @@ dtbo-$(CONFIG_ARCH_CAPE) += cape-mtp-pm8008-overlay.dtbo \
 	thor-sm8475-pm8008-overlay.dtbo \
 	zizhan-sm8475-pm8008-overlay.dtbo \
 	mayfly-sm8475-pm8008-overlay.dtbo \
-	mondrian-sm8475-pm8008-overlay.dtbo \
 	yudi-sm8475-pm8008-overlay.dtbo \
 	ukee-mtp-pm8008-overlay.dtbo \
 	ukee-mtp-120fps-pm8008-overlay.dtbo \
