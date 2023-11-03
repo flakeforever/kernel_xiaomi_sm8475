@@ -527,12 +527,6 @@ config MMHARDWARE_DETECTION
 	help
 	  This adds support for mmhardware detection
 
-config MI_HARDWARE_ID
-	tristate "Register hwid interface"
-	default n
-	help
-	  This adds support for mi-project type and adc values read.
-
 source "drivers/misc/rtimd-i2c/Kconfig"
 source "drivers/misc/c2port/Kconfig"
 source "drivers/misc/eeprom/Kconfig"
