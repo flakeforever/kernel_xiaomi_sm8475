@@ -77,3 +77,4 @@ obj-y				+= hwid/
 obj-$(CONFIG_MMHARDWARE_DETECTION) += mmhardware_sysfs.o
 # BSP.System - 2023.2.2 - add simtray status
 obj-$(CONFIG_SIMTRAY_STATUS) += simtray/
+obj-$(CONFIG_PERF_HELPER)       += perf_helper.o
