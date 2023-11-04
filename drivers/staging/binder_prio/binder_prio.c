@@ -9,7 +9,7 @@
 #include <linux/string.h>
 
 static const char * const task_name[] = {
-	"com.tencent.mm", "com.ss.android.ugc.aweme", "tv.danmaku.bilibilihd",
+	"com.facebook.katana", "com.ss.android.ugc.aweme", "com.whatsapp",
 };
 
 static int to_userspace_prio(int policy, int kernel_priority) {
