@@ -124,6 +124,4 @@ source "drivers/staging/extend_reclaim/Kconfig"
 
 source "drivers/staging/miev/Kconfig"
 
-source "drivers/staging/binder_prio/Kconfig"
-
 endif # STAGING
