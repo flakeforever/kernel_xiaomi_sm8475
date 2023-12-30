@@ -6563,17 +6563,6 @@ void msm_pcie_allow_l1(struct pci_dev *pci_dev)
 	pcie_dev = PCIE_BUS_PRIV_DATA(root_pci_dev->bus);
 
 	mutex_lock(&pcie_dev->aspm_lock);
-
-	/* Reject the allow_l1 call if we are already in drv state */
-	if (pcie_dev->link_status == MSM_PCIE_LINK_DRV) {
-		PCIE_DBG2(pcie_dev, "PCIe: RC%d: %02x:%02x.%01x: Error\n",
-				pcie_dev->rc_idx, pci_dev->bus->number,
-				PCI_SLOT(pci_dev->devfn),
-				PCI_FUNC(pci_dev->devfn));
-		mutex_unlock(&pcie_dev->aspm_lock);
-		return;
-	}
-
 	if (unlikely(--pcie_dev->prevent_l1 < 0))
 		PCIE_ERR(pcie_dev,
 			"PCIe: RC%d: %02x:%02x.%01x: unbalanced prevent_l1: %d < 0\n",
@@ -6615,18 +6604,6 @@ int msm_pcie_prevent_l1(struct pci_dev *pci_dev)
 
 	/* disable L1 */
 	mutex_lock(&pcie_dev->aspm_lock);
-
-	/* Reject the prevent_l1 call if we are already in drv state */
-	if (pcie_dev->link_status == MSM_PCIE_LINK_DRV) {
-		ret = -EINVAL;
-		PCIE_DBG2(pcie_dev, "PCIe: RC%d: %02x:%02x.%01x:ret %d exit\n",
-				pcie_dev->rc_idx, pci_dev->bus->number,
-				PCI_SLOT(pci_dev->devfn),
-				PCI_FUNC(pci_dev->devfn), ret);
-		mutex_unlock(&pcie_dev->aspm_lock);
-		goto out;
-	}
-
 	if (pcie_dev->prevent_l1++) {
 		mutex_unlock(&pcie_dev->aspm_lock);
 		return 0;
@@ -6671,7 +6648,6 @@ err:
 	mutex_unlock(&pcie_dev->aspm_lock);
 	msm_pcie_allow_l1(pci_dev);
 
-out:
 	return ret;
 }
 EXPORT_SYMBOL(msm_pcie_prevent_l1);
@@ -7971,9 +7947,7 @@ static int msm_pcie_drv_resume(struct msm_pcie_dev_t *pcie_dev)
 	spin_lock_irq(&pcie_dev->cfg_lock);
 	pcie_dev->cfg_access = true;
 	spin_unlock_irq(&pcie_dev->cfg_lock);
-	mutex_lock(&pcie_dev->aspm_lock);
 	pcie_dev->link_status = MSM_PCIE_LINK_ENABLED;
-	mutex_unlock(&pcie_dev->aspm_lock);
 
 	/* resume access to MSI register as link is resumed */
 	if (!pcie_dev->lpi_enable)
@@ -8024,9 +7998,7 @@ static int msm_pcie_drv_suspend(struct msm_pcie_dev_t *pcie_dev,
 	pcie_dev->cfg_access = false;
 	spin_unlock_irq(&pcie_dev->cfg_lock);
 	mutex_lock(&pcie_dev->setup_lock);
-	mutex_lock(&pcie_dev->aspm_lock);
 	pcie_dev->link_status = MSM_PCIE_LINK_DRV;
-	mutex_unlock(&pcie_dev->aspm_lock);
 
 	/* turn off all unsuppressible clocks */
 	clk_info = pcie_dev->pipeclk;
