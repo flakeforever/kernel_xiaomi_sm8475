@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0-only
-TECHPACK?=y
+TECHPACK?=n
 
 export KERNEL_ROOT=$(srctree)
 export KERNEL_SRC=$(srctree)
