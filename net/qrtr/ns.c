@@ -827,8 +827,6 @@ void qrtr_ns_remove(void)
 {
 	kthread_flush_worker(&qrtr_ns.kworker);
 	kthread_stop(qrtr_ns.task);
-	cancel_work_sync(&qrtr_ns.work);
-	destroy_workqueue(qrtr_ns.workqueue);
 	
 	/* sock_release() expects the two references that were put during
 	 * qrtr_ns_init(). This function is only called during module remove,

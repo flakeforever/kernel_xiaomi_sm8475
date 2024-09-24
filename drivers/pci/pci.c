@@ -4850,8 +4850,8 @@ void pci_bridge_wait_for_secondary_bus(struct pci_dev *dev)
 		return;
 	}
 
-	child = list_first_entry(&dev->subordinate->devices, struct pci_dev,
-				 bus_list);
+	child = pci_dev_get(list_first_entry(&dev->subordinate->devices,
+					     struct pci_dev, bus_list));
 	up_read(&pci_bus_sem);
 
 	/*
